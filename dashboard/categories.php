@@ -1,6 +1,12 @@
 <?php
 include_once './includes/functions.php';
 $categories=getCategories();
+if (isset($_REQUEST['delete']) && $_REQUEST['delete'] == 1) {
+    $info = array(
+        'status' => true,
+        'message' => 'Category deleted successfully'
+    );
+}
 ?>
 <html lang="en" data-qb-installed="true">
 <!-- head  -->
@@ -18,6 +24,17 @@ $categories=getCategories();
                 </div>
                 <div class="card shadow-sm">
                     <div class="card-body">
+                         <?php
+                        if (isset($info)) {
+                            if ($info['status']) {
+                                $alertClass = 'alert-success';
+                            } else {
+                                $alertClass = 'alert-danger';
+                            }
+                            echo '<div class="alert ' . $alertClass . ' p-2" role="alert">' . $info['message'] . '</div>';
+                        }
+                        ;
+                        ?>
                         <div class="table-responsive">
                             <table class="table table-hovered">
                                 <thead class="table-dark ">
@@ -33,8 +50,9 @@ $categories=getCategories();
                                         <td><?= $category['id']; ?></td>
                                         <td><?= $category['category_name']; ?></td>
                                         <td>
-                                            <a href="edit-category.php?id=<?= $category['id'];?>" class="btn btn-sm btn-danger">Delete</a>
-                                            <a href="delete-category.php?id=<?= $category['id'];?>" class="btn btn-sm btn-warning">Edit</a>
+                                            <a href="edit-category.php?id=<?= $category['id'];?>" class="btn btn-sm btn-warning">Edit</a>
+                                            <a href="delete-category.php?id=<?= $category['id'];?>" class="btn btn-sm btn-danger
+                                            ">Delete</a>
                                         </td>
                                     </tr>
                                     <?php endforeach; ?>

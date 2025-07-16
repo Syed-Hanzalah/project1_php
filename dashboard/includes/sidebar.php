@@ -1,4 +1,4 @@
-<div class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark  col-lg-2 col-md-3" style=" height:100vh;">
+<div class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark  col-lg-2 col-md-3 position-fixed" style=" height:100vh;">
         <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none"> <svg
                 class="bi pe-none me-2" width="40" height="32" aria-hidden="true">
 
@@ -18,7 +18,7 @@
                 <i class="fa fa-layer-group me-2"></i>
                     Categories
                 </a> </li>
-            <li> <a href="#" class="nav-link text-white">
+            <li> <a href="products.php" class="nav-link text-white">
                  <i class="fa fa-list me-2"></i>
                     Products
                 </a> </li>
