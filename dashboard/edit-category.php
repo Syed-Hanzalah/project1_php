@@ -1,4 +1,7 @@
 <?php include_once './includes/functions.php';
+if (!isAdmin()) {
+    header("Location: ../index.php");
+    exit();}
 $categoryDetails = [];
 
 if (isset($_REQUEST['category_name']) && isset($_REQUEST['id'])) {

@@ -1,5 +1,8 @@
 <?php
 include_once './includes/functions.php';
+if (!isAdmin()) {
+    header("Location: ../index.php");
+    exit();}
 $categories = getCategories();
 if (isset($_REQUEST['add-product'])) {
     $title = mysqli_real_escape_string($conn, $_REQUEST['title']);

@@ -1,3 +1,8 @@
+
+<?php
+$path = $_SERVER['PHP_SELF'];
+$fileName = basename($path);
+?>
 <div class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark  col-lg-2 col-md-3 position-fixed" style=" height:100vh;">
         <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none"> <svg
                 class="bi pe-none me-2" width="40" height="32" aria-hidden="true">
@@ -6,23 +11,23 @@
         <hr>
         <ul class="nav nav-pills flex-column mb-auto">
             
-            <li> <a href="./index.php" class="nav-link text-white"> 
+            <li> <a href="./index.php" class="nav-link text-white <?= $active = $fileName == "index.php" ? "active" : ""; ?>" > 
                 <i class="fa fa-dashboard me-2"></i>
                     Dashboard
                 </a> </li>
-            <li> <a href="orders.php" class="nav-link text-white"> 
+            <li> <a href="orders.php" class="nav-link text-white <?= $active = $fileName == "orders.php" ? "active" : ""; ?>"> 
                 <i class="fa fa-shopping-cart me-2"></i>
                     Orders
                 </a> </li>
-                <li> <a href="./categories.php" class="nav-link text-white"> 
+                <li> <a href="./categories.php" class="nav-link text-white <?= $active = $fileName == "categories.php" ? "active" : ($fileName == "add-category.php" ? "active" :(($fileName == "edit-category.php" ? "active" :( ($fileName == "delete-category.php" ? "active" :""))))); ?>"> 
                 <i class="fa fa-layer-group me-2"></i>
                     Categories
                 </a> </li>
-            <li> <a href="products.php" class="nav-link text-white">
+            <li> <a href="products.php" class="nav-link text-white <?= $active = $fileName == "products.php" ? "active" : ($fileName == "add-product.php" ? "active" :(($fileName == "edit-product.php" ? "active" :( ($fileName == "delete-product.php" ? "active" :""))))); ?>">
                  <i class="fa fa-list me-2"></i>
                     Products
                 </a> </li>
-            <li> <a href="#" class="nav-link text-white"> 
+            <li> <a href="#" class="nav-link text-white <?= $active = $fileName == "customers.php" ? "active" : ""; ?>"> 
                 <i class="fa fa-users me-2"></i>
                     Customers
                 </a> </li>
@@ -39,7 +44,7 @@
                 <li>
                     <hr class="dropdown-divider">
                 </li>
-                <li><a class="dropdown-item" href="#">Sign out</a></li>
+                <li><a class="dropdown-item" href="./logout.php">Sign out</a></li>
             </ul>
         </div>
     </div>

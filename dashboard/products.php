@@ -1,8 +1,15 @@
 <?php
 include_once './includes/functions.php';
-$info = getProducts();
-$products = $info['status'] ? $info['data'] : [];
-
+if (!isAdmin()) {
+    header("Location: ../index.php");
+    exit();}
+$products = getProducts();
+if (isset($_REQUEST['delete']) && $_REQUEST['delete'] == 1) {
+    $info = array(
+        'status' => true,
+        'message' => 'Product deleted successfully'
+    );
+}
 ?>
 <html lang="en" data-qb-installed="true">
 <!-- head  -->
@@ -20,63 +27,45 @@ $products = $info['status'] ? $info['data'] : [];
                 </div>
                 <div class="card shadow-sm">
                     <div class="card-body">
-                        <?php
+                        <div class="table-responsive">
+                            <table class="table table-hovered products-table">
+                                <thead class="table-dark ">
+                                    <tr>
+                                        <th>Category Id</th>
+                                        <th>Product</th>
+                                        <th>Category </th>
+                                        <th>Price</th>
+                                        <th>Stock</th>
+                                        <th>Created At</th>
+                                        <th>Updated At</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    if(!empty($products)):
+                                        foreach ($products as $product): ?>
+                                            <tr>
+                                                <td><?= $product['id']; ?></td>
+                                                <td><img src="./<?= $product['image']; ?> " height="60px" width="60px" class="border rounded me-2" alt=" <?= $product['title']; ?>"> <?= $product['title']; ?></td>
+                                                <td><?= $product['category_name']; ?></td>
+                                                <td><?= number_format($product['price'],1,'.',',') ; ?></td>
+                                                <td><?= number_format($product['stock'],2,'.',','); ?></td>
+                                                <td><?= date('d M, Y h:i a',strtotime($product['created_at']) ) ; ?></td>
+                                                <td><?= date('d M, Y h:i a',strtotime($product['updated_at']) ); ?></td>
+                                                <td>
+                                                    <a href="edit-product.php?id=<?= $product['id'];?>" class="btn btn-sm btn-warning">Edit</a>
+                                                    <a href="delete-product.php?id=<?= $product['id'];?>" class="btn btn-sm btn-danger">Delete</a>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; 
+                                   endif ;?>
+                                      
 
-
-                        ?>
-                        <div class="row justify-content-around">
-                            <?php foreach ($products as $product): ?>
-                                <div class="col-md-4 col-sm-6 mb-4 border-rounded">
-                                    <div class="card h-100 shadow-sm overflow-hidden">
-                                        <img src="<?= htmlspecialchars($product['image']) ?>" class="card-img-top"
-                                            alt="<?= htmlspecialchars($product['title']) ?>"
-                                            style="height: 250px; object-fit: cover;">
-
-                                        <div class="card-body d-flex flex-column " style="background-color: #c2c2c2ff;">
-                                            <h5 class="card-title"><?= htmlspecialchars($product['title']) ?></h5>
-
-                                            <p class="card-text text-muted" style="font-size: 14px;">
-                                                <?= strlen($product['description']) > 80
-                                                    ? htmlspecialchars(substr($product['description'], 0, 80)) . '...'
-                                                    : htmlspecialchars($product['description']) ?>
-                                            </p>
-
-
-
-                                            <div class="mb-2">
-                                                <strong class="text-dark" style="font-size: 18px;">
-                                                    $<?= number_format($product['price'], 2) ?>
-                                                </strong>
-                                            </div>
-
-                                            <div class="text-muted mb-2" style="font-size: 14px;">
-                                                Stock:
-                                                <?= $product['stock'] > 0 ? $product['stock'] : '<span class="text-danger">Out of stock</span>' ?>
-                                            </div>
-                                            <?php if ($product['discount'] > 0): ?>
-                                                <span class="badge bg-danger mb-2">-<?= $product['discount'] ?>% Off</span>
-                                            <?php endif; ?>
-                                            <div class="mt-auto d-flex gap-2">
-                                                <!-- Edit Product -->
-                                                <a href="edit-product.php?id=<?= $product['id'] ?>"
-                                                    class="btn btn-sm btn-primary w-100">
-                                                    Edit
-                                                </a>
-
-                                                <!-- Delete Product -->
-                                                <a href="delete-product.php?id=<?= $product['id'] ?>"
-                                                    class="btn btn-sm btn-danger w-100"
-                                                    onclick="return confirm('Are you sure you want to delete this product?');">
-                                                    Delete
-                                                </a>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            <?php endforeach; ?>
+                                </tbody>
+                            </table>
                         </div>
-
+                      <!-- table end  -->
                     </div>
                 </div>
             </main>

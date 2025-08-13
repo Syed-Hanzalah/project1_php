@@ -1,3 +1,10 @@
+<?php
+include_once './includes/functions.php';
+if (!isAdmin()) {
+    header("Location: ../index.php");
+    exit();
+}
+?>
 <html lang="en" data-qb-installed="true">
 <!-- head  -->
 <?php include_once './includes/head.php'; ?>

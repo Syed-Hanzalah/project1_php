@@ -1,5 +1,8 @@
 <?php include_once './includes/functions.php';
-
+if (!isAdmin()) {
+    header("Location: ../index.php");
+    exit();
+}
 if (isset($_REQUEST['category_name'])) {
 $category_name = $_REQUEST['category_name'];
 $info = addCategory($category_name);
