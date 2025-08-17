@@ -391,3 +391,34 @@ function loginUser($email, $password): array
     return isset($_SESSION['user_id']) && isset($_SESSION['role']) && $_SESSION['role'] === 'admin';}
     function isUser(): bool{
     return isset($_SESSION['user_id']) && isset($_SESSION['role']) && $_SESSION['role'] === 'user';}
+
+    function getProductsbycategory($id): array
+{
+
+    global $conn;
+ $id = sanitize($id);
+    $products = [];
+    $sql1 = "SELECT p.*, c.category_name FROM products p
+    inner join categories c on p.category_id = c.id where category_id = '$id'"; ;
+    $result1 = mysqli_query($conn, $sql1);
+    if ($result1 && mysqli_num_rows($result1) > 0) {
+        while ($row1 = mysqli_fetch_assoc($result1)) {
+            $products[] = $row1;
+        }
+    }
+    return $products;}
+    // search 
+    function searchProducts($q): array
+{
+    $q = sanitize($q);
+    global $conn;
+    $products = [];
+    $sql1 = "SELECT p.*, c.category_name FROM products p
+    inner join categories c on p.category_id = c.id where p.title LIKE '%$q%' OR c.category_name LIKE '%$q%' ";
+    $result1 = mysqli_query($conn, $sql1);
+    if ($result1 && mysqli_num_rows($result1) > 0) {
+        while ($row1 = mysqli_fetch_assoc($result1)) {
+            $products[] = $row1;
+        }
+    }
+    return $products;}

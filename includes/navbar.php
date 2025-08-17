@@ -1,4 +1,8 @@
+<?php
+include_once './dashboard/includes/functions.php';
+?>
     <!-- Start Header Area -->
+
     <header class="header navbar-area">
         <!-- Start Header Middle -->
         <div class="header-middle">
@@ -15,26 +19,15 @@
                         <!-- Start Main Menu Search -->
                         <div class="main-menu-search">
                             <!-- navbar search start -->
-                            <div class="navbar-search search-style-5">
-                                <div class="search-select">
-                                    <div class="select-position">
-                                        <select id="select1">
-                                            <option selected>All</option>
-                                            <option value="1">option 01</option>
-                                            <option value="2">option 02</option>
-                                            <option value="3">option 03</option>
-                                            <option value="4">option 04</option>
-                                            <option value="5">option 05</option>
-                                        </select>
-                                    </div>
-                                </div>
+                            <form action="./search.php" method="get" class="navbar-search search-style-5">
+                               
                                 <div class="search-input">
-                                    <input type="text" placeholder="Search">
+                                    <input type="text" name="q" value="<?= $_REQUEST['q'] ?? ''?>" placeholder="Search">
                                 </div>
                                 <div class="search-btn">
-                                    <button><i class="lni lni-search-alt"></i></button>
+                                    <button type="submit"><i class="lni lni-search-alt"></i></button>
                                 </div>
-                            </div>
+                            </form>
                             <!-- navbar search Ends -->
                         </div>
                         <!-- End Main Menu Search -->
@@ -121,32 +114,18 @@
                         <div class="mega-category-menu">
                             <span class="cat-button"><i class="lni lni-menu"></i>All Categories</span>
                             <ul class="sub-category">
-                                <li><a href="product-grids.html">Electronics <i class="lni lni-chevron-right"></i></a>
-                                    <ul class="inner-sub-category">
-                                        <li><a href="product-grids.html">Digital Cameras</a></li>
-                                        <li><a href="product-grids.html">Camcorders</a></li>
-                                        <li><a href="product-grids.html">Camera Drones</a></li>
-                                        <li><a href="product-grids.html">Smart Watches</a></li>
-                                        <li><a href="product-grids.html">Headphones</a></li>
-                                        <li><a href="product-grids.html">MP3 Players</a></li>
-                                        <li><a href="product-grids.html">Microphones</a></li>
-                                        <li><a href="product-grids.html">Chargers</a></li>
-                                        <li><a href="product-grids.html">Batteries</a></li>
-                                        <li><a href="product-grids.html">Cables & Adapters</a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="product-grids.html">accessories</a></li>
-                                <li><a href="product-grids.html">Televisions</a></li>
-                                <li><a href="product-grids.html">best selling</a></li>
-                                <li><a href="product-grids.html">top 100 offer</a></li>
-                                <li><a href="product-grids.html">sunglass</a></li>
-                                <li><a href="product-grids.html">watch</a></li>
-                                <li><a href="product-grids.html">man’s product</a></li>
-                                <li><a href="product-grids.html">Home Audio & Theater</a></li>
-                                <li><a href="product-grids.html">Computers & Tablets </a></li>
-                                <li><a href="product-grids.html">Video Games </a></li>
-                                <li><a href="product-grids.html">Home Appliances </a></li>
-                            </ul>
+                                    <?php
+                                    $categories = getCategories();
+                                    if (!empty($categories)) {
+                                    
+                                    foreach ($categories as $category) : ?>
+                                    <li><a href="./category.php?id=<?=$category['id']?>"><?= $category['category_name']; ?>
+                                    </a></li>
+                                    <?php endforeach;
+                                    }else{
+                                        echo '<li><a href="#">No Categories Found</a></li>';
+                                    } ?>
+                                    
                         </div>
                         <!-- End Mega Category Menu -->
                         <!-- Start Navbar -->
@@ -163,7 +142,7 @@
                                     <li class="nav-item">
                                         <a href="index.html" class="active" aria-label="Toggle navigation">Home</a>
                                     </li>
-                                    <li class="nav-item">
+                                    <!-- <li class="nav-item">
                                         <a class="dd-menu collapsed" href="javascript:void(0)" data-bs-toggle="collapse"
                                             data-bs-target="#submenu-1-2" aria-controls="navbarSupportedContent"
                                             aria-expanded="false" aria-label="Toggle navigation">Pages</a>
@@ -172,7 +151,7 @@
                                             <li class="nav-item"><a href="faq.html">Faq</a></li>
                                             <li class="nav-item"><a href="login.php">Login</a></li>
                                             <li class="nav-item"><a href="register.php">Register</a></li>
-                                            <li class="nav-item"><a href="./dashboard/logout.php">Sign out</a></li>
+                                            
                                             <li class="nav-item"><a href="mail-success.html">Mail Success</a></li>
                                             <li class="nav-item"><a href="404.html">404 Error</a></li>
                                         </ul>
@@ -200,10 +179,29 @@
                                             <li class="nav-item"><a href="blog-single-sidebar.html">Blog Single
                                                     Sibebar</a></li>
                                         </ul>
-                                    </li>
+                                    </li> -->
                                     <li class="nav-item">
                                         <a href="contact.html" aria-label="Toggle navigation">Contact Us</a>
                                     </li>
+                                    <?php 
+                                    if (isLoggedIn()) : ?>
+                                        <li class="nav-item">
+                                        <a href="./orders.php" aria-label="Toggle navigation">Orders</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="./dashboard/logout.php" aria-label="Toggle navigation">LogOut</a>
+                                    </li>
+                                    <?php else : ?>
+                                    
+                                    <li class="nav-item">
+                                        <a href="login.php" aria-label="Toggle navigation">LogIn</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="./register.php" aria-label="Toggle navigation"> Register</a>
+                                    </li>
+                                    <?php endif; ?>
+                                   
+                                   
                                 </ul>
                             </div> <!-- navbar collapse -->
                         </nav>
